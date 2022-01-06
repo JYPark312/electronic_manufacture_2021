@@ -83,6 +83,9 @@ with open('code.pickle', 'wb') as fw:
 ![USPTO_example](readme.assets/USPTO_example.PNG)
 
 ## CPC 분리 
+-cpcs column에 묶여있는 cpc 분리
+-cpc_subgroup_id까지 network 분석 대상으로 정함
+
 ```python
 path_dir = './electronic_manufacture_2021-main/patent_data/patent/' #수집된 특허데이터 경로 설정
 file_list = os.listdir(path_dir)
@@ -106,6 +109,7 @@ for j in file_list:
     data.to_csv('./electronic_manufacture_2021-main/patent_data/cpc_devide/cpc_'+j, encoding='utf8', index=False) #CPC 분리후 csv 파일로 저장
 ```
 ## 네트워크 분석을 위한 cpc동시 출현 matrix
+- 특허 = 문서, cpc = 단어로 규정하여 tf-idf 기반의 동시출현 matrix 도출
 ```python
 import pandas as pd
 import numpy as np
