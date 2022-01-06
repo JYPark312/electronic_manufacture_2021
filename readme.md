@@ -150,3 +150,4 @@ for i in file_list:
 ## 네트워크 분석
 
 - 사용 프로그램 : Gephi
+- CPC 분류표에 따른 클러스터명 설정
