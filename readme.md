@@ -83,8 +83,8 @@ with open('code.pickle', 'wb') as fw:
 ![USPTO_example](readme.assets/USPTO_example.PNG)
 
 ## CPC 분리 
--cpcs column에 묶여있는 cpc 분리
--cpc_subgroup_id까지 network 분석 대상으로 정함
+- cpcs column에 묶여있는 cpc 분리
+- cpc_subgroup_id까지 network 분석 대상으로 정함
 
 ```python
 path_dir = './electronic_manufacture_2021-main/patent_data/patent/' #수집된 특허데이터 경로 설정
