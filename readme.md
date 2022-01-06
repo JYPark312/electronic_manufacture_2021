@@ -82,6 +82,67 @@ with open('code.pickle', 'wb') as fw:
 
 ![USPTO_example](readme.assets/USPTO_example.PNG)
 
+## CPC 분리 
+```python
+path_dir = './electronic_manufacture_2021-main/patent_data/patent/' #수집된 특허데이터 경로 설정
+file_list = os.listdir(path_dir)
+
+for j in file_list:  
+    data = pd.read_csv("./electronic_manufacture_2021-main/patent_data/patent/"+j) #데이터 import
+    cpc_sets=[]
+    sample = data['cpcs'].to_list()
+    for i in sample:
+        cpc_set = ''
+        i = pd.DataFrame(eval(i))
+        for c in i['cpc_subgroup_id']:
+            try:
+                cpc = c.split('/')[0]
+                cpc_set = cpc_set +','+ cpc
+            except:
+                cpc_set = cpc_set + 'None'
+        cpc_sets.append(cpc_set)
+    data['cpc_set'] = cpc_sets
+    data['cpc_set'] = data['cpc_set'].str.lstrip(",")
+    data.to_csv('./electronic_manufacture_2021-main/patent_data/cpc_devide/cpc_'+j, encoding='utf8', index=False) #CPC 분리후 csv 파일로 저장
+```
+## 네트워크 분석을 위한 cpc동시 출현 matrix
+```python
+import pandas as pd
+import numpy as np
+from sklearn.feature_extraction.text import CountVectorizer
+
+
+path_dir = './electronic_manufacture_2021-main/patent_data/cpc_devide/'
+file_list = os.listdir(path_dir)
+
+for i in file_list:    
+    data = pd.read_csv("./electronic_manufacture_2021-main/patent_data/cpc_devide/"+i)
+    
+    cpc_list = data['cpc_set']
+    
+    vect = CountVectorizer()
+    document_term_matrix = vect.fit_transform(cpc_list) 
+    
+    tf = pd.DataFrame(document_term_matrix.toarray(), columns=vect.get_feature_names()) #tf계산
+    
+    D = len(tf)
+    df = tf.astype(bool).sum(axis=0)
+    idf = np.log((D+1) / (df+1)) + 1  #idf 계산
+    
+    tfidf = tf * idf                      
+    tfidf_array = tfidf.to_numpy() #tf-idf 
+    
+    co_mat = np.dot(tfidf_array.T, tfidf_array) #coocccurence matrix 
+    
+    feature_name=[]
+    for a in vect.get_feature_names():
+        feature_name.append(a.upper())
+    
+    
+    co_mat_df = pd.DataFrame(co_mat, columns =feature_name, index = feature_name)
+    
+    co_mat_df.to_csv("./electronic_manufacture_2021-main/patent_data/network/net_"+i) #matrix csv 
+```
 ## 네트워크 분석
 
 - 사용 프로그램 : Gephi
