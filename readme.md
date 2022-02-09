@@ -152,3 +152,15 @@ for i in file_list:
 - 사용 프로그램 : Gephi
 - CPC 분류표에 따른 클러스터명 설정
 ![cpc_devide_example](readme.assets/cpc_devide_example.png)
+
+## 분석 결과
+
+### Electronic battery![electronic_battery](readme.assets/electronic_battery.png)
+
+### polyamide
+
+![polyamide](readme.assets/polyamide.png)
+
+### polyethyleneter
+
+![polyethyleneter](readme.assets/polyethyleneter.png)
